@@ -160,7 +160,7 @@ const KlikhalArticle = () => {
 
         {/* Kolom Kanan: Artikel Terbaru */}
         <div className="md:w-1/3">
-          <h3 className="text-2xl font-bold mb-4">Artikel Terbaru</h3>
+          <h3 className="text-2xl font-bold -mt-16 mb-10">Artikel Terbaru</h3>
           {trendingArticles.map((trendingArticle) => (
             <div
               key={trendingArticle.id}
@@ -171,10 +171,10 @@ const KlikhalArticle = () => {
                 <img
                   src={`http://localhost:5000/uploads/${trendingArticle.gambar}`}
                   alt={trendingArticle.judul}
-                  className="w-20 h-20 object-cover rounded-md mr-4"
+                  className="w-28 h-28 object-cover rounded-md mr-4"
                 />
                 <div>
-                  <h4 className="text-lg font-semibold mb-1">
+                  <h4 className="text-lg font-semibold mb-1 line-clamp-2">
                     {trendingArticle.judul}
                   </h4>
                   <div

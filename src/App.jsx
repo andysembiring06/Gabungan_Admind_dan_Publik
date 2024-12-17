@@ -28,7 +28,7 @@ function App() {
     <Router>
       <Routes>
         {/* publik */}
-        <Route path="/" element={<Halaman_satu />} />
+        <Route path="/Halaman_satu" element={<Halaman_satu />} />
         <Route path="/Halaman_dua" element={<Halaman_dua />} />
         <Route path="/Halaman_tiga" element={<Halaman_tiga />} />
         <Route path="/Halaman_empat" element={<Halaman_empat />} />
@@ -41,7 +41,7 @@ function App() {
         <Route path="/Klikhal_108" element={<Klikhal_108 />} />
 
         {/* Admin */}
-        <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
         <Route path="/Tambah_artikel" element={<Tambah_artikel />} />
       </Routes>

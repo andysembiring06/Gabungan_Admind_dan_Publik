@@ -217,7 +217,10 @@ const Dashboard = () => {
         {/* Confirmation Dialog */}
         {showDeleteConfirmation && (
           <div style={styles.confirmationDialog}>
-            <p>Apakah Anda yakin ingin menghapus artikel ini?</p>
+            <p>
+              Apakah Anda yakin ingin menghapus artikel ini dengan ID{" "}
+              {articleToDelete}?
+            </p>
             <button onClick={confirmDelete} style={styles.confirmButton}>
               Hapus
             </button>
@@ -351,21 +354,23 @@ const styles = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "white",
-    padding: "20px",
+    padding: "16px",
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    zIndex: 10,
   },
   confirmButton: {
     backgroundColor: "red",
     color: "white",
-    padding: "10px 20px",
+    padding: "8px 16px",
     borderRadius: "4px",
+    marginRight: "8px",
     cursor: "pointer",
   },
   cancelButton: {
-    backgroundColor: "#007bff",
+    backgroundColor: "gray",
     color: "white",
-    padding: "10px 20px",
+    padding: "8px 16px",
     borderRadius: "4px",
     cursor: "pointer",
   },

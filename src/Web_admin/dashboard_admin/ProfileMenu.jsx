@@ -19,7 +19,7 @@ const ProfileMenu = () => {
     if (savedProfileImage) {
       setProfileImage(savedProfileImage);
     }
-  }, []);
+  }, []); // Empty dependency array to run once when component mounts
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -27,16 +27,16 @@ const ProfileMenu = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result);
-        localStorage.setItem("profileImage", reader.result);
+        localStorage.setItem("profileImage", reader.result); // Save the updated image to localStorage
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleLogout = () => {
-    // Clear local storage and reset state
-    localStorage.removeItem("username");
-    localStorage.removeItem("profileImage");
+    // Optionally, don't remove items from localStorage if you want to keep the data after logout
+    // localStorage.removeItem("username");
+    // localStorage.removeItem("profileImage");
     setUsername(""); // Reset username state
     setProfileImage(""); // Reset profile image state
 
@@ -48,7 +48,7 @@ const ProfileMenu = () => {
     const newName = prompt("Masukkan nama baru:", username);
     if (newName) {
       setUsername(newName);
-      localStorage.setItem("username", newName);
+      localStorage.setItem("username", newName); // Update localStorage with new username
     }
   };
 
