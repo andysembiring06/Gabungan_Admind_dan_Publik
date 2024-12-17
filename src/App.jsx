@@ -43,7 +43,7 @@ function App() {
         {/* Admin */}
         <Route path="/Login" element={<Login />} />
         <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
-        <Route path="/" element={<Tambah_artikel />} />
+        <Route path="/Tambah_artikel" element={<Tambah_artikel />} />
       </Routes>
     </Router>
   );

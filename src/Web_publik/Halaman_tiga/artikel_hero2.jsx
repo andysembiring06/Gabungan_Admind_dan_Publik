@@ -6,11 +6,13 @@ const ArtikelHero2 = () => {
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTopic, setSelectedTopic] = useState("Terbaru");
+  const [selectedTopic, setSelectedTopic] = useState("Semua"); // Default ke "Semua"
   const articlesPerPage = 6;
 
-  const topics = ["Terbaru", "Kesehatan", "Budidaya", "Bisnis"];
+  // Daftar topik termasuk "Kesehatan", "Budidaya", dan "Terbaru"
+  const topics = ["Semua", "Bisnis", "Kesehatan", "Budidaya", "Terbaru"];
 
+  // Fetch articles
   const fetchArticles = () => {
     axios
       .get("http://localhost:5000/api/artikel")
@@ -19,22 +21,32 @@ const ArtikelHero2 = () => {
           (article) => article.status === "published"
         );
 
-        // Sort articles: urutkan berdasarkan ID artikel yang terkecil
-        publishedArticles.sort((a, b) => a.id - b.id); // Urutkan berdasarkan ID
+        // Sort articles by ID (oldest to latest)
+        publishedArticles.sort((a, b) => a.id - b.id);
 
-        setArticles(publishedArticles);
+        // ID terkecil (yang pertama dalam urutan ID setelah disortir)
+        const smallestId = publishedArticles[0].id;
+
+        // Filter articles by excluding the one with the smallest ID
+        const filteredArticles = publishedArticles.filter(
+          (article) => article.id !== smallestId
+        );
+
+        setArticles(filteredArticles);
       })
       .catch((error) => {
         console.error("Error fetching articles:", error);
       });
   };
 
+  // Fetch articles on initial load and periodically every 5 seconds
   useEffect(() => {
     fetchArticles();
     const interval = setInterval(fetchArticles, 5000);
     return () => clearInterval(interval);
   }, []);
 
+  // Format the article's published date
   const formatDate = (dateString) => {
     const days = [
       "Minggu",
@@ -71,40 +83,41 @@ const ArtikelHero2 = () => {
     return `${day} ${dayOfMonth} ${month} ${year} ${hours}:${minutes}`;
   };
 
-  const isRecent = (dateString) => {
-    const now = new Date();
-    const articleDate = new Date(dateString);
-    const difference = now - articleDate;
-    return difference <= 24 * 60 * 60 * 1000; // 24 jam terakhir
-  };
-
+  // Filter articles based on selected topic or date range
   const filteredArticles = articles.filter((article) => {
     const matchesTopic =
-      selectedTopic === "Terbaru"
-        ? isRecent(article.tanggal) // Jika "Terbaru", filter berdasarkan 24 jam terakhir
-        : selectedTopic === "All" ||
-          article.topik.toLowerCase() === selectedTopic.toLowerCase();
+      selectedTopic === "Semua" ||
+      article.topik.toLowerCase() === selectedTopic.toLowerCase();
 
     const matchesSearch = article.judul
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    return matchesTopic && matchesSearch;
+    let matchesDate = true;
+
+    // Check if the article is from the last 24 hours (only for "Terbaru")
+    if (selectedTopic === "Terbaru") {
+      const articleDate = new Date(article.tanggal);
+      const now = new Date();
+      const timeDiff = now - articleDate; // Time difference in milliseconds
+      const oneDayInMillis = 24 * 60 * 60 * 1000;
+      matchesDate = timeDiff <= oneDayInMillis;
+    }
+
+    return matchesTopic && matchesSearch && matchesDate;
   });
 
-  const filteredArticlesToPaginate = filteredArticles.slice(1);
-
+  // Pagination logic
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  const currentArticles = filteredArticlesToPaginate.slice(
+  const currentArticles = filteredArticles.slice(
     indexOfFirstArticle,
     indexOfLastArticle
   );
 
-  const totalPages = Math.ceil(
-    filteredArticlesToPaginate.length / articlesPerPage
-  );
+  const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
 
+  // Reset to page 1 when filtering by search term or topic
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedTopic]);
@@ -123,7 +136,6 @@ const ArtikelHero2 = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-
       <div className="filterButtons">
         {topics.map((topic) => (
           <button
@@ -163,7 +175,7 @@ const ArtikelHero2 = () => {
         ))}
       </div>
 
-      {filteredArticlesToPaginate.length === 0 && (
+      {filteredArticles.length === 0 && (
         <div className="noArticles">Tidak ada artikel yang ditemukan</div>
       )}
 

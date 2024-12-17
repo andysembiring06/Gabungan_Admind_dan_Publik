@@ -403,6 +403,8 @@ const Artikel = () => {
               [{ list: "ordered" }, { list: "bullet" }],
               ["bold", "italic", "underline"],
               ["link"],
+              [{ align: [] }],
+              [{ color: [] }, { background: [] }],
             ],
           }}
         />

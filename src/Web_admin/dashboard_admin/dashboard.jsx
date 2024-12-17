@@ -18,12 +18,16 @@ const Dashboard = () => {
     localStorage.getItem("profileImage") || ""
   );
 
+  // New state to handle deletion confirmation
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [articleToDelete, setArticleToDelete] = useState(null);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/artikel")
       .then((response) => {
         setArticles(response.data);
-        setFilteredArticles(response.data); // On initial load, no filter
+        setFilteredArticles(response.data);
       })
       .catch((error) => {
         console.error("Error fetching articles:", error);
@@ -82,22 +86,41 @@ const Dashboard = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  // Handle article deletion
   const handleDelete = (articleId) => {
-    axios
-      .delete(`http://localhost:5000/api/artikel/${articleId}`)
-      .then(() => {
-        setArticles(articles.filter((article) => article.id !== articleId));
-        setFilteredArticles(
-          filteredArticles.filter((article) => article.id !== articleId)
-        );
-      })
-      .catch((error) => {
-        console.error("Error deleting article:", error);
-      });
+    setArticleToDelete(articleId);
+    setShowDeleteConfirmation(true);
   };
 
-  const handleEdit = (articleId) => {
-    console.log("Edit article with ID:", articleId);
+  // Confirm deletion with async/await and handling API response
+  const confirmDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/artikel/${articleToDelete}`
+      );
+      console.log("Article deleted:", articleToDelete, response); // Debugging log to check response
+
+      if (response.status === 200 || response.status === 204) {
+        // Successfully deleted, update state
+        setArticles((prevArticles) =>
+          prevArticles.filter((article) => article.id !== articleToDelete)
+        );
+        setFilteredArticles((prevArticles) =>
+          prevArticles.filter((article) => article.id !== articleToDelete)
+        );
+        setShowDeleteConfirmation(false);
+        setArticleToDelete(null);
+      } else {
+        console.error("Failed to delete article: ", response);
+      }
+    } catch (error) {
+      console.error("Error deleting article:", error);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirmation(false);
+    setArticleToDelete(null);
   };
 
   const applyFilter = ({ status, timeRange }) => {
@@ -143,7 +166,7 @@ const Dashboard = () => {
       <div className="flex justify-between items-center mt-8 px-8">
         <FilterDropdown onApplyFilter={applyFilter} />
         <Link
-          to="/Tambah_artikel" // Navigate to "Tambah Artikel"
+          to="/Tambah_artikel"
           className="bg-orange-500 text-white p-4 rounded-lg shadow-lg hover:bg-orange-600 flex items-center gap-2"
         >
           <span>Tambah Artikel</span>
@@ -169,12 +192,11 @@ const Dashboard = () => {
               </div>
               <div style={styles.iconContainer}>
                 <div style={styles.iconWrapper}>
-                  <button
-                    onClick={() => handleEdit(article.id)}
-                    style={styles.editButton}
-                  >
-                    <FaEdit style={styles.editIcon} />
-                  </button>
+                  <Link to={{ pathname: "/Tambah_artikel", state: article }}>
+                    <button style={styles.editButton}>
+                      <FaEdit style={styles.editIcon} />
+                    </button>
+                  </Link>
                   <span style={styles.iconLabel}>Edit</span>
                 </div>
 
@@ -191,6 +213,19 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
+
+        {/* Confirmation Dialog */}
+        {showDeleteConfirmation && (
+          <div style={styles.confirmationDialog}>
+            <p>Apakah Anda yakin ingin menghapus artikel ini?</p>
+            <button onClick={confirmDelete} style={styles.confirmButton}>
+              Hapus
+            </button>
+            <button onClick={cancelDelete} style={styles.cancelButton}>
+              Batal
+            </button>
+          </div>
+        )}
 
         <div style={styles.pagination}>
           <button
@@ -309,6 +344,30 @@ const styles = {
   pageInfo: {
     fontSize: "16px",
     alignSelf: "center",
+  },
+  confirmationDialog: {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  confirmButton: {
+    backgroundColor: "red",
+    color: "white",
+    padding: "10px 20px",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+  cancelButton: {
+    backgroundColor: "#007bff",
+    color: "white",
+    padding: "10px 20px",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
 };
 
