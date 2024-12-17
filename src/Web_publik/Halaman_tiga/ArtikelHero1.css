@@ -1,0 +1,61 @@
+.bg-hero-container {
+  background-color: #1e3a8a; /* Warna biru */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Tinggi minimal */
+}
+
+.bg-hero-content {
+  margin-top: 6rem; /* Sesuai tinggi navbar */
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #1e3a8a; /* Warna biru */
+  border-radius: 0.5rem; /* Rounded */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  min-height: 80vh;
+  position: relative;
+}
+
+.hero-article {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.hero-image {
+  width: 80vw;
+  height: 28rem;
+  object-fit: cover;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.hero-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.hero-paragraph {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.no-article {
+  text-align: center;
+  color: #9ca3af; /* Gray */
+}
+
+.article-date {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.875rem;
+  color: white;
+}
