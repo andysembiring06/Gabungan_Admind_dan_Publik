@@ -12,7 +12,7 @@ const KlikhalArticle = () => {
   const [loading, setLoading] = useState(true);
 
   // ID artikel utama
-  const ARTIKEL_UTAMA_ID = 106; // Sesuaikan dengan ID artikel utama
+  const ARTIKEL_UTAMA_ID = 146; // Sesuaikan dengan ID artikel utama
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -40,18 +40,28 @@ const KlikhalArticle = () => {
             setTrendingArticles(trendingArticlesList);
 
             // Artikel Terkait: Topik yang sama, selain artikel utama
-            const relatedArticlesList = publishedArticles
-              .filter(
-                (relatedArticle) =>
-                  relatedArticle.topik === mainArticle.topik &&
-                  relatedArticle.id !== mainArticle.id
-              )
+            let relatedArticlesList = publishedArticles.filter(
+              (relatedArticle) =>
+                relatedArticle.topik === mainArticle.topik &&
+                relatedArticle.id !== mainArticle.id
+            );
+
+            // Jika tidak ada artikel yang dekat, cari yang lebih jauh tapi tetap dengan topik yang sama
+            if (relatedArticlesList.length === 0) {
+              relatedArticlesList = publishedArticles.filter(
+                (relatedArticle) => relatedArticle.topik === mainArticle.topik
+              );
+            }
+
+            // Urutkan artikel terkait berdasarkan ID terdekat dengan artikel utama
+            relatedArticlesList = relatedArticlesList
               .sort(
                 (a, b) =>
                   Math.abs(a.id - ARTIKEL_UTAMA_ID) -
                   Math.abs(b.id - ARTIKEL_UTAMA_ID)
-              ) // Urutkan berdasarkan ID terdekat
-              .slice(0, 3); // Ambil 3 artikel terkait
+              )
+              .slice(0, 3); // Ambil 3 artikel terkait yang terdekat
+
             setRelatedArticles(relatedArticlesList);
           }
         }
@@ -160,7 +170,7 @@ const KlikhalArticle = () => {
 
         {/* Kolom Kanan: Artikel Terbaru */}
         <div className="md:w-1/3">
-          <h3 className="text-2xl font-bold mb-4">Artikel Terbaru</h3>
+          <h3 className="text-2xl font-bold -mt-16 mb-10">Artikel Terbaru</h3>
           {trendingArticles.map((trendingArticle) => (
             <div
               key={trendingArticle.id}
@@ -171,10 +181,10 @@ const KlikhalArticle = () => {
                 <img
                   src={`http://localhost:5000/uploads/${trendingArticle.gambar}`}
                   alt={trendingArticle.judul}
-                  className="w-20 h-20 object-cover rounded-md mr-4"
+                  className="w-28 h-28 object-cover rounded-md mr-4"
                 />
                 <div>
-                  <h4 className="text-lg font-semibold mb-1">
+                  <h4 className="text-lg font-semibold mb-1 line-clamp-2">
                     {trendingArticle.judul}
                   </h4>
                   <div

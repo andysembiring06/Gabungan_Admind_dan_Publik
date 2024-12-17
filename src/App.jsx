@@ -11,9 +11,12 @@ import Halaman_lima from "./Web_publik/Halaman_lima";
 
 // publik star artikel
 
-import Klikhal_101 from "./Web_klik_Artikel/klikhal_101";
-import Klikhal_106 from "./Web_klik_Artikel/klikhal_106";
-import Klikhal_108 from "./Web_klik_Artikel/Klikhal_108";
+import Klikhal_139 from "./Web_klik_Artikel/klikhal_139";
+import Klikhal_140 from "./Web_klik_Artikel/klikhal_140";
+import Klikhal_141 from "./Web_klik_Artikel/klikhal_141";
+import Klikhal_142 from "./Web_klik_Artikel/klikhal_142";
+import Klikhal_144 from "./Web_klik_Artikel/Klikhal_144";
+import Klikhal_146 from "./Web_klik_Artikel/Klikhal_146";
 
 // publik end artikel
 
@@ -28,7 +31,7 @@ function App() {
     <Router>
       <Routes>
         {/* publik */}
-        <Route path="/Halaman_satu" element={<Halaman_satu />} />
+        <Route path="/" element={<Halaman_satu />} />
         <Route path="/Halaman_dua" element={<Halaman_dua />} />
         <Route path="/Halaman_tiga" element={<Halaman_tiga />} />
         <Route path="/Halaman_empat" element={<Halaman_empat />} />
@@ -36,12 +39,16 @@ function App() {
 
         {/* klik artikel */}
 
-        <Route path="/Klikhal_101" element={<Klikhal_101 />} />
-        <Route path="/Klikhal_106" element={<Klikhal_106 />} />
-        <Route path="/Klikhal_108" element={<Klikhal_108 />} />
+        <Route path="/Klikhal_139" element={<Klikhal_139 />} />
+        <Route path="/Klikhal_140" element={<Klikhal_140 />} />
+        <Route path="/Klikhal_140" element={<Klikhal_140 />} />
+        <Route path="/Klikhal_141" element={<Klikhal_141 />} />
+        <Route path="/Klikhal_142" element={<Klikhal_142 />} />
+        <Route path="/Klikhal_144" element={<Klikhal_144 />} />
+        <Route path="/Klikhal_146" element={<Klikhal_146 />} />
 
         {/* Admin */}
-        <Route path="/" element={<Login />} />
+        <Route path="/Login" element={<Login />} />
         <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
         <Route path="/Tambah_artikel" element={<Tambah_artikel />} />
       </Routes>

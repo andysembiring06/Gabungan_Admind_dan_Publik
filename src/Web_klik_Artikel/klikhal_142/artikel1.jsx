@@ -12,7 +12,7 @@ const KlikhalArticle = () => {
   const [loading, setLoading] = useState(true);
 
   // ID artikel utama
-  const ARTIKEL_UTAMA_ID = 101; // Sesuaikan dengan ID artikel utama
+  const ARTIKEL_UTAMA_ID = 142; // Sesuaikan dengan ID artikel utama
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -40,18 +40,28 @@ const KlikhalArticle = () => {
             setTrendingArticles(trendingArticlesList);
 
             // Artikel Terkait: Topik yang sama, selain artikel utama
-            const relatedArticlesList = publishedArticles
-              .filter(
-                (relatedArticle) =>
-                  relatedArticle.topik === mainArticle.topik &&
-                  relatedArticle.id !== mainArticle.id
-              )
+            let relatedArticlesList = publishedArticles.filter(
+              (relatedArticle) =>
+                relatedArticle.topik === mainArticle.topik &&
+                relatedArticle.id !== mainArticle.id
+            );
+
+            // Jika tidak ada artikel yang dekat, cari yang lebih jauh tapi tetap dengan topik yang sama
+            if (relatedArticlesList.length === 0) {
+              relatedArticlesList = publishedArticles.filter(
+                (relatedArticle) => relatedArticle.topik === mainArticle.topik
+              );
+            }
+
+            // Urutkan artikel terkait berdasarkan ID terdekat dengan artikel utama
+            relatedArticlesList = relatedArticlesList
               .sort(
                 (a, b) =>
                   Math.abs(a.id - ARTIKEL_UTAMA_ID) -
                   Math.abs(b.id - ARTIKEL_UTAMA_ID)
-              ) // Urutkan berdasarkan ID terdekat
-              .slice(0, 3); // Ambil 3 artikel terkait
+              )
+              .slice(0, 3); // Ambil 3 artikel terkait yang terdekat
+
             setRelatedArticles(relatedArticlesList);
           }
         }
