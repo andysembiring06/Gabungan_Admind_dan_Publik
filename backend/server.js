@@ -3,17 +3,9 @@ const mysql = require("mysql2");
 const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
-const fs = require("fs");
-require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 5000;
-
-// Membuat folder uploads jika belum ada
-const uploadsDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
+const port = 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -30,12 +22,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Koneksi database menggunakan konfigurasi dotenv
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "ikanku",
 });
 
 db.connect((err) => {
@@ -46,24 +37,22 @@ db.connect((err) => {
   }
 });
 
-// Endpoint untuk menambah artikel
 app.post("/api/artikel", upload.single("gambar"), (req, res) => {
   const { judul, konten, status, topik } = req.body;
   const gambar = req.file ? req.file.filename : null;
   const tanggal = new Date().toISOString().slice(0, 19).replace("T", " ");
-  
-  const sql = "INSERT INTO articles (judul, konten, tanggal, status, gambar, topik) VALUES (?, ?, ?, ?, ?, ?)";
+  const sql =
+    "INSERT INTO articles (judul, konten, tanggal, status, gambar, topik) VALUES (?, ?, ?, ?, ?, ?)";
 
   db.query(sql, [judul, konten, tanggal, status, gambar, topik], (err) => {
     if (err) {
       console.error("Error inserting article:", err);
-      return res.status(500).send({ error: "Error inserting article", message: err.message });
+      return res.status(500).send("Error inserting article");
     }
     res.status(200).send("Article successfully added!");
   });
 });
 
-// Endpoint untuk mengambil artikel
 app.get("/api/artikel", (req, res) => {
   const sql = "SELECT * FROM articles ORDER BY id DESC";
   db.query(sql, (err, result) => {
@@ -75,10 +64,8 @@ app.get("/api/artikel", (req, res) => {
   });
 });
 
-// Menyajikan file yang diupload melalui endpoint /uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Menjalankan server pada port yang ditentukan
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
