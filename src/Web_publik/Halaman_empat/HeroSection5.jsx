@@ -1,5 +1,5 @@
 import React from "react";
-import footerLogo from "../assets/gambar-4/image.jpg";
+import footerLogo from "../../assets/gambar-4/image.jpg";
 
 const Herosection5 = () => {
   return (

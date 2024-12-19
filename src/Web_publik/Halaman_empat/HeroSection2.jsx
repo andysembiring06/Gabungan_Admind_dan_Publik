@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ikanImage from "../assets/gambar-4/hp-1.jpg";
+import ikanImage from "../../assets/gambar-4/hp-1.png";
 
 function HeroSection2() {
   const [contentText, setContentText] = useState(

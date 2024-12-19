@@ -1,4 +1,4 @@
-import fishImage from "../assets/gambar-4/ikan.jpg";
+import fishImage from "../../assets/gambar-4/ikan.jpg";
 
 function HeroSection1() {
   return (
