@@ -42,7 +42,6 @@ function HeroSection2() {
           </p>
         </div>
 
-        {/* Content Section */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mt-16">
           <div className="w-64 flex-shrink-0">
             <img
