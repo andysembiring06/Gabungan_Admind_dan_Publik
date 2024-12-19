@@ -1,23 +1,23 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "server.js",  // Pastikan file server.js yang menjadi file utama
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"  // Perbaiki ke server.js atau file utama yang sesuai
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.9",
-    "body-parser": "^1.20.3", 
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.5",
     "path": "^0.12.7",
-    "react-quill": "^2.0.0"  // React-Quill lebih cocok di frontend, sebaiknya pindah ke frontend
+    "react-quill": "^2.0.0"
   },
   "description": ""
 }
