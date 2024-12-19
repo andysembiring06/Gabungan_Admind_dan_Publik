@@ -1,16 +1,16 @@
 import React from "react";
-import img1 from "../../assets/gambar-4/1.jpg";
-import img2 from "../../assets/gambar-4/2.jpg";
-import img3 from "../../assets/gambar-4/3.jpg";
-import img4 from "../../assets/gambar-4/4.jpg";
-import img5 from "../../assets/gambar-4/5.jpg";
-import img6 from "../../assets/gambar-4/6.jpg";
-import img7 from "../../assets/gambar-4/7.jpg";
-import img8 from "../../assets/gambar-4/8.jpg";
-import img9 from "../../assets/gambar-4/9.jpg";
-import img10 from "../../assets/gambar-4/10.jpg";
-import img11 from "../../assets/gambar-4/11.jpg";
-import img12 from "../../assets/gambar-4/12.jpg";
+import img1 from "../../assets/gambar-4/1.png";
+import img2 from "../../assets/gambar-4/2.png";
+import img3 from "../../assets/gambar-4/3.png";
+import img4 from "../../assets/gambar-4/4.png";
+import img5 from "../../assets/gambar-4/5.png";
+import img6 from "../../assets/gambar-4/6.png";
+import img7 from "../../assets/gambar-4/7.png";
+import img8 from "../../assets/gambar-4/8.png";
+import img9 from "../../assets/gambar-4/9.png";
+import img10 from "../../assets/gambar-4/10.png";
+import img11 from "../../assets/gambar-4/11.png";
+import img12 from "../../assets/gambar-4//12.png";
 
 const HeroSection3 = () => {
   return (
@@ -22,7 +22,9 @@ const HeroSection3 = () => {
 
         {/* Founder & CEO Section */}
         <div className="mb-16">
-          <h2 className="text-2xl font-semibold mb-6">Founder & CEO</h2>
+          <h2 className="text-2xl font-semibold mb-6">
+            Hustler & Scrum Master
+          </h2>
           <div className="flex items-center justify-center">
             {/* Bagian Gambar - 2 kolom layout */}
             <div className="grid grid-cols-2 gap-8 w-1/2">
@@ -126,7 +128,7 @@ const HeroSection3 = () => {
 
         {/* Developer Section */}
         <div className="mb-16">
-          <h2 className="text-2xl font-semibold mb-6">Developer</h2>
+          <h2 className="text-2xl font-semibold mb-6">Programer</h2>
           <div className="flex items-center justify-center">
             {/* Bagian Gambar - 2 kolom layout */}
             <div className="grid grid-cols-2 gap-8 w-1/2">

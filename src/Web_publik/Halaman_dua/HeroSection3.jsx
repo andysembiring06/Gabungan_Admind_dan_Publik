@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import berandaImage from "../../assets/gambar-2/beranda-2-5.png";
+import image1 from "../../assets/gambar-2/beranda-2-5.png";
+import image2 from "../../assets/gambar-2/beranda-2-6.png";
+import image3 from "../../assets/gambar-2/beranda-2-7.png";
 
 const HeroSection3 = () => {
-  // State to manage active slide group
   const [activeSlideGroup, setActiveSlideGroup] = useState(0);
 
-  // Array of content for cards (we are duplicating this 3 times to get 9 cards)
   const cardData = [
     { title: "Transparansi Harga & Produk Detail", imgAlt: "Product 1" },
     { title: "Sistem Review Terpercaya", imgAlt: "Product 2" },
@@ -18,12 +18,12 @@ const HeroSection3 = () => {
     { title: "Layanan Pelanggan 24/7", imgAlt: "Product 9" },
   ];
 
-  // Handle scroll on dot click (change 3 items per scroll)
+  const images = [image1, image2, image3];
+
   const handleDotClick = (index) => {
     setActiveSlideGroup(index);
   };
 
-  // Calculate the indices for the current group of 3 cards
   const currentGroupCards = cardData.slice(
     activeSlideGroup * 3,
     activeSlideGroup * 3 + 3
@@ -35,21 +35,19 @@ const HeroSection3 = () => {
         Keunggulan Produk
       </h1>
 
-      {/* Scrollable container for cards */}
       <div className="overflow-x-auto flex gap-6 justify-start max-w-[90%] mx-auto">
         {currentGroupCards.map((card, index) => (
           <div
             key={index}
-            className="flex items-center max-w-[400px] w-full bg-gradient-to-b from-white to-[#eb7c49] rounded-xl p-4 h-[350px]" // Increased card height
+            className="flex items-center max-w-[400px] w-full bg-gradient-to-b from-white to-[#eb7c49] rounded-xl p-4 h-[350px]"
           >
-            {/* Image with larger size */}
+            {/* Gunakan gambar berdasarkan index modul */}
             <img
-              src={berandaImage}
+              src={images[index % images.length]}
               alt={card.imgAlt}
-              className="w-32 h-auto rounded-lg object-cover" // Increased image size
+              className="w-32 h-auto rounded-lg object-cover"
             />
 
-            {/* Text next to the image */}
             <div className="ml-6 flex items-center h-full">
               <h3 className="text-lg font-bold text-[#333] text-left">
                 {card.title}
@@ -59,7 +57,6 @@ const HeroSection3 = () => {
         ))}
       </div>
 
-      {/* Pagination dots */}
       <div className="flex gap-2 mt-8">
         {Array.from({ length: Math.ceil(cardData.length / 3) }).map(
           (_, index) => (
