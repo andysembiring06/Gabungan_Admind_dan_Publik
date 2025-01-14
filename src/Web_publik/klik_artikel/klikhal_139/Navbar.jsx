@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link dari React Router
-import logo from "../../assets/gambar-1/image.png"; // Gambar logo
+import logo from "../../../assets/gambar-1/image.png"; // Gambar logo
 
 function Navbar() {
   return (

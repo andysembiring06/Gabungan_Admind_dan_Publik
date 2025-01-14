@@ -9,12 +9,10 @@ import Halaman_empat from "./Web_publik/Halaman_empat";
 import Halaman_lima from "./Web_publik/Halaman_lima";
 // publik end
 
-// publik star artikel
-
-import Klikhal_139 from "./Web_klik_Artikel/klikhal_139";
-import Klikhal_140 from "./Web_klik_Artikel/klikhal_140";
-
-// publik end artikel
+// publik klik artikel star
+import Klikhal_139 from "../src/Web_publik/klik_artikel/klikhal_139";
+import Klikhal_140 from "../src/Web_publik/klik_artikel/klikhal_140";
+// publik klik artikel end
 
 // admin star
 import Login from "./Web_admin/login";
@@ -33,8 +31,7 @@ function App() {
         <Route path="/Halaman_empat" element={<Halaman_empat />} />
         <Route path="/Halaman_lima" element={<Halaman_lima />} />
 
-        {/* klik artikel */}
-
+        {/* publik klik artikel */}
         <Route path="/Klikhal_139" element={<Klikhal_139 />} />
         <Route path="/Klikhal_140" element={<Klikhal_140 />} />
 
