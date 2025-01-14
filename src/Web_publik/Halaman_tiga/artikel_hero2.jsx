@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./ArtikelHero2.css"; // Import file CSS
+import "./ArtikelHero2.css";
 
 const ArtikelHero2 = () => {
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTopic, setSelectedTopic] = useState("Semua"); // Default ke "Semua"
+  const [selectedTopic, setSelectedTopic] = useState("Semua");
   const articlesPerPage = 6;
 
-  // Daftar topik termasuk "Kesehatan", "Budidaya", dan "Terbaru"
   const topics = ["Semua", "Bisnis", "Kesehatan", "Budidaya", "Terbaru"];
 
-  // Fetch articles
   const fetchArticles = () => {
     axios
       .get("http://localhost:5000/api/artikel")
@@ -21,32 +19,29 @@ const ArtikelHero2 = () => {
           (article) => article.status === "published"
         );
 
-        // Sort articles by ID (oldest to latest)
+        console.log("Artikel published:", publishedArticles);
+
         publishedArticles.sort((a, b) => a.id - b.id);
-
-        // ID terkecil (yang pertama dalam urutan ID setelah disortir)
-        const smallestId = publishedArticles[0].id;
-
-        // Filter articles by excluding the one with the smallest ID
+        const smallestId = publishedArticles[0]?.id;
         const filteredArticles = publishedArticles.filter(
           (article) => article.id !== smallestId
         );
-
         setArticles(filteredArticles);
       })
       .catch((error) => {
         console.error("Error fetching articles:", error);
+        alert(
+          "Gagal mengambil artikel. Pastikan backend berjalan dengan baik."
+        );
       });
   };
 
-  // Fetch articles on initial load and periodically every 5 seconds
   useEffect(() => {
     fetchArticles();
     const interval = setInterval(fetchArticles, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  // Format the article's published date
   const formatDate = (dateString) => {
     const days = [
       "Minggu",
@@ -83,31 +78,32 @@ const ArtikelHero2 = () => {
     return `${day} ${dayOfMonth} ${month} ${year} ${hours}:${minutes}`;
   };
 
-  // Filter articles based on selected topic or date range
-  const filteredArticles = articles.filter((article) => {
-    const matchesTopic =
-      selectedTopic === "Semua" ||
-      article.topik.toLowerCase() === selectedTopic.toLowerCase();
+  const isWithinLastThreeDays = (dateString) => {
+    const articleDate = new Date(dateString);
+    const now = new Date();
+    const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000);
+    return articleDate >= threeDaysAgo;
+  };
 
+  const filteredArticles = articles.filter((article) => {
     const matchesSearch = article.judul
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    let matchesDate = true;
+    let matchesCriteria = true;
 
-    // Check if the article is from the last 24 hours (only for "Terbaru")
-    if (selectedTopic === "Terbaru") {
-      const articleDate = new Date(article.tanggal);
-      const now = new Date();
-      const timeDiff = now - articleDate; // Time difference in milliseconds
-      const oneDayInMillis = 24 * 60 * 60 * 1000;
-      matchesDate = timeDiff <= oneDayInMillis;
+    if (selectedTopic === "Kesehatan") {
+      matchesCriteria = article.topik?.toLowerCase().trim() === "kesehatan";
+    } else if (selectedTopic === "Terbaru") {
+      matchesCriteria = isWithinLastThreeDays(article.tanggal);
+    } else if (selectedTopic !== "Semua") {
+      matchesCriteria =
+        article.topik?.toLowerCase().trim() === selectedTopic.toLowerCase();
     }
 
-    return matchesTopic && matchesSearch && matchesDate;
+    return matchesSearch && matchesCriteria;
   });
 
-  // Pagination logic
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = filteredArticles.slice(
@@ -117,13 +113,12 @@ const ArtikelHero2 = () => {
 
   const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
 
-  // Reset to page 1 when filtering by search term or topic
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedTopic]);
 
   const handleNavigation = (id) => {
-    window.location.href = `/klikhal_${id}`; // Redirect to article page
+    window.location.href = `/klikhal_${id}`;
   };
 
   return (
@@ -159,15 +154,9 @@ const ArtikelHero2 = () => {
               src={`http://localhost:5000/uploads/${article.gambar}`}
               alt={article.judul}
               className="articleImage"
-              onClick={() => handleNavigation(article.id)}
             />
             <div className="articleContent">
-              <h3
-                className="articleTitle"
-                onClick={() => handleNavigation(article.id)}
-              >
-                {article.judul}
-              </h3>
+              <h3 className="articleTitle">{article.judul}</h3>
               <p className="articleTopic">{article.topik}</p>
               <p className="articleDate">{formatDate(article.tanggal)}</p>
             </div>

@@ -1,3 +1,6 @@
+// Import dotenv untuk mengakses variabel lingkungan
+require("dotenv").config();
+
 const express = require("express");
 const mysql = require("mysql2");
 const multer = require("multer");
@@ -5,7 +8,9 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-const port = 5000;
+
+// Gunakan variabel lingkungan dari .env atau default ke nilai tertentu
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -22,11 +27,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Koneksi MySQL menggunakan variabel dari .env
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "ikanku",
+  host: process.env.DB_HOST || "localhost", // Default ke localhost jika tidak ada di .env
+  user: process.env.DB_USER || "root", // Default ke root jika tidak ada di .env
+  password: process.env.DB_PASSWORD || "", // Default ke kosong jika tidak ada di .env
+  database: process.env.DB_NAME || "ikanku", // Default ke "ikanku" jika tidak ada di .env
 });
 
 db.connect((err) => {

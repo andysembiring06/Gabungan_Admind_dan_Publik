@@ -8,15 +8,12 @@ const HeroSection = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between">
           {/* Left content */}
           <div className="flex-1 text-white lg:text-left mb-8 lg:mb-0 pl-12 lg:ml-12">
-            {" "}
             {/* Padding kiri ditambahkan */}
             <h1 className="text-2xl lg:text-5xl font-bold mb-4 lg:ml-4">
-              {" "}
               {/* Margin kiri ditambahkan */}
               Belanja Ikan Mudah
             </h1>
             <h2 className="text-2xl lg:text-5xl font-bold mb-8 lg:ml-4">
-              {" "}
               {/* Margin kiri ditambahkan */}
               Dengan IkanKu
             </h2>
@@ -33,7 +30,7 @@ const HeroSection = () => {
             <img
               src={ikanImage}
               alt="IkanKu App Mockup"
-              className="max-w-[220px] h-auto object-contain mt-4"
+              className="max-w-[220px] h-auto object-contain mt-8" // Increased margin-top here
             />
           </div>
         </div>
