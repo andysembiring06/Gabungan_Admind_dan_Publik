@@ -13,13 +13,6 @@ import Halaman_lima from "./Web_publik/Halaman_lima";
 
 import Klikhal_139 from "./Web_klik_Artikel/klikhal_139";
 import Klikhal_140 from "./Web_klik_Artikel/klikhal_140";
-import Klikhal_141 from "./Web_klik_Artikel/klikhal_141";
-import Klikhal_142 from "./Web_klik_Artikel/klikhal_142";
-import Klikhal_144 from "./Web_klik_Artikel/klikhal_144";
-import Klikhal_146 from "./Web_klik_Artikel/klikhal_146";
-import Klikhal_147 from "./Web_klik_Artikel/klikhal_147";
-import Klikhal_148 from "./Web_klik_Artikel/klikhal_148";
-import Klikhal_149 from "./Web_klik_Artikel/klikhal_149";
 
 // publik end artikel
 
@@ -44,14 +37,6 @@ function App() {
 
         <Route path="/Klikhal_139" element={<Klikhal_139 />} />
         <Route path="/Klikhal_140" element={<Klikhal_140 />} />
-        <Route path="/Klikhal_140" element={<Klikhal_140 />} />
-        <Route path="/Klikhal_141" element={<Klikhal_141 />} />
-        <Route path="/Klikhal_142" element={<Klikhal_142 />} />
-        <Route path="/Klikhal_144" element={<Klikhal_144 />} />
-        <Route path="/Klikhal_146" element={<Klikhal_146 />} />
-        <Route path="/Klikhal_147" element={<Klikhal_147 />} />
-        <Route path="/Klikhal_148" element={<Klikhal_148 />} />
-        <Route path="/Klikhal_149" element={<Klikhal_149 />} />
 
         {/* Admin */}
         <Route path="/Login" element={<Login />} />
